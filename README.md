@@ -81,6 +81,7 @@ cd ../
 
 Create the appropriate output directory in your EOS space:
 ```
+eosmkdir /store/user/$USER/CMSDAS2023/
 eosmkdir /store/user/$USER/CMSDAS2023/rootfiles/
 ```
 
@@ -88,12 +89,12 @@ You can now run either your selection or N-1 script:
 
 *Selection:*
 ```
-python CondorHelper.py -r condor/run_selection.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2023/CondorHelper.py -r condor/run_selection.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 *N - 1:*
 ```
-python CondorHelper.py -r condor/run_Nminus1.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2023/CondorHelper.py -r condor/run_Nminus1.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 The argument files for the various years are:
