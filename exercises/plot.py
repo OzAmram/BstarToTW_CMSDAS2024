@@ -156,10 +156,12 @@ if __name__ == "__main__":
 	    signal_hists[sig] = histgroups[sig][varname]
 
 	# QCD has a *LOT* more entries than the other backgrounds, so normalize to ttbar before plotting
-	QCDint = bkg_hists['QCD'].Integral()
-	TTint = bkg_hists['ttbar'].Integral()
-	ratio = TTint/QCDint
-	bkg_hists['QCD'].Scale(ratio)
+	# first, just check if these histos exist for the year, if not then skip
+	if ('QCD' in bkg_hists) and ('ttbar' in bkg_hists):
+	    QCDint = bkg_hists['QCD'].Integral()
+	    TTint = bkg_hists['ttbar'].Integral()
+	    ratio = TTint/QCDint
+	    bkg_hists['QCD'].Scale(ratio)
 
 	# Plot everything together!
 	CompareShapes(
