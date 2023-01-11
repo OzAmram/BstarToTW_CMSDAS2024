@@ -85,7 +85,10 @@ eosmkdir /store/user/$USER/CMSDAS2023/
 eosmkdir /store/user/$USER/CMSDAS2023/rootfiles/
 ```
 
-You can now run either your selection or N-1 script:
+**WARNING:** In order for the scripts to work, you must change the `$USER` value in the `condor/run_*.sh` script to your LPC username used in the above step. 
+
+
+You can now run either your selection, N-1 script, or the script for generating 2D template histograms for 2DAlphabet:
 
 *Selection:*
 ```
@@ -97,11 +100,23 @@ python $CMSSW_BASE/src/BstarToTW_CMSDAS2023/CondorHelper.py -r condor/run_select
 python $CMSSW_BASE/src/BstarToTW_CMSDAS2023/CondorHelper.py -r condor/run_Nminus1.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
-The argument files for the various years are:
+*2D template histos:*
+```
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2023/CondorHelper.py -r condor/run_bstar.sh -a condor/2016_args_2DTemplates.txt -i "bstar.cc bstar_config.json helpers.py"
+```
+
+
+The argument files for the various years for *selection* and *N - 1* are:
 ```
 condor/2016_args.txt
 condor/2017_args.txt
 condor/2018_args.txt
+```
+The argument files for the various years for *2D template histos* are:
+```
+condor/2016_args_2DTemplates.txt
+condor/2017_args_2DTemplates.txt
+condor/2018_args_2DTemplates.txt
 ```
 
 To check the progress/submission status of your jobs:
