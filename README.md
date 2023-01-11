@@ -119,7 +119,32 @@ condor/2017_args_2DTemplates.txt
 condor/2018_args_2DTemplates.txt
 ```
 
-To check the progress/submission status of your jobs:
+To check the status of your submitted jobs:
 ```
 condor_q $USER
+```
+
+To check the progress of your submitted jobs:
+```
+condor_tail -name lpcschedd<schedd#>.fnal.gov <job ID>
+```
+
+To remove a job:
+```
+condor_rm -name lpcschedd<schedd#>.fnal.gov <job ID>
+```
+
+To list contents of directory on EOS:
+```
+eosls /store/user/$USER/CMSDAS2023/rootfiles/
+```
+
+To copy file from EOS to local (`-f` overwrites):
+```
+xrdcp [-f] root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/FileYouWant.root ./
+```
+
+To copy files from local to EOS:
+```
+xrdcp [-f] FileToSend.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/
 ```
