@@ -3,17 +3,28 @@ echo "Run script starting"
 ls
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 xrdcp root://cmseos.fnal.gov//store/user/cmsdas/2023/long_exercises/BstarTW/BstarTW.tgz ./
-export SCRAM_ARCH=slc7_amd64_gcc820
+scramv1 project CMSSW CMSSW_11_1_4
 tar -xzvf BstarTW.tgz
 rm BstarTW.tgz
 rm *.root
+echo "Current working directory path: ---------------------------------------"
+pwd
+echo "Current working directory contents: -----------------------------------"
+ls
+echo "-----------------------------------------------------------------------"
 
 mkdir tardir; cp tarball.tgz tardir/; cd tardir/
+echo "Current working directory path: ---------------------------------------"
+pwd
+echo "-----------------------------------------------------------------------"
 tar -xzf tarball.tgz; rm tarball.tgz
 cp -r * ../CMSSW_11_1_4/src/BstarToTW_CMSDAS2023/; cd ../CMSSW_11_1_4/src/
 echo 'IN RELEASE'
+echo "Current working directory path: ---------------------------------------"
 pwd
+echo "Current working directory contents: -----------------------------------"
 ls
+echo "-----------------------------------------------------------------------"
 eval `scramv1 runtime -sh`
 rm -rf timber-env
 python -m virtualenv timber-env

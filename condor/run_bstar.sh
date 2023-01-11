@@ -34,7 +34,7 @@ source setup.sh
 cd ../BstarToTW_CMSDAS2023
 rm rootfiles/*.root
 
-echo python exercises/nminus1.py $*
-python exercises/nminus1.py $*
+echo python bs_select.py $*
+python bs_select.py $*
 
-xrdcp -f rootfiles/*.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/
+xrdcp -f Presel_*.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/
