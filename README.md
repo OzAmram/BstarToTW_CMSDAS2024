@@ -4,11 +4,10 @@
 
 ### Setup CMSSW environment:
 ```
-ssh -XY USERNAME@cmslpc-sl7.fnal.gov
+ssh -Y USERNAME@lxplus.cern.ch
 export SCRAM_ARCH=slc7_amd64_gcc820 
-cd ~/nobackup/
-mkdir CMSDAS2023
-cd CMSDAS2023/
+cd ~/public/
+mkdir CMSDAS2023 && cd CMSDAS2023
 cmsrel CMSSW_11_1_4
 cd CMSSW_11_1_4/src
 cmsenv
@@ -28,6 +27,7 @@ git remote -v
 
 ### In the `CMSSW_11_1_4/src/` directory, create a python virtual environment and install TIMBER within it:
 ```
+cd ~/public/CMSDAS2023/CMSSW_11_1_4/src/
 git clone https://github.com/ammitra/TIMBER.git
 python -m virtualenv timber-env
 source timber-env/bin/activate
@@ -44,7 +44,7 @@ If all went well, the command should be executed with no output.
 
 ### At this point you should have a directory structure that looks like this: 
 ```
-└── ~/nobackup/CMSDAS2023/CMSSW_11_1_4/src/
+└── ~/public/CMSDAS2023/CMSSW_11_1_4/src/
     ├── TIMBER/
     ├── timber-env/
     └── BstarToTW_CMSDAS2023/
