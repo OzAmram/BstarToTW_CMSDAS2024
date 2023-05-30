@@ -11,7 +11,10 @@ ROOT.gROOT.SetBatch(True)
 # Establish some global variables for use #
 ###########################################
 plotdir = 'plots/'
-redirector = 'root://cmsxrootd.fnal.gov/'
+# US, Europe/Asia, global
+#redirector = 'root://cmsxrootd.fnal.gov/'
+redirector = 'root://xrootd-cms.infn.it/'
+#redirector = 'root://cms-xrd-global.cern.ch/'
 rootfile_path = '/store/user/cmsdas/2021/long_exercises/BstarTW/rootfiles'
 config = 'bstar_config.json'
 if not os.path.exists(plotdir):
