@@ -2,7 +2,7 @@
 echo "Run script starting"
 ls
 source /cvmfs/cms.cern.ch/cmsset_default.sh
-xrdcp root://cmseos.fnal.gov//store/user/cmsdas/2023/long_exercises/BstarTW/BstarTW.tgz ./
+cp /eos/user/c/cmsdas/2023/long-ex-b2g/BstarTW.tgz ./
 scramv1 project CMSSW CMSSW_11_1_4
 tar -xzvf BstarTW.tgz
 rm BstarTW.tgz
@@ -37,4 +37,4 @@ rm rootfiles/*.root
 echo python exercises/selection.py $*
 python exercises/selection.py $*
 
-xrdcp -f rootfiles/*.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/
+cp -f rootfiles/*.root /eos/home-a/ammitra/
