@@ -11,11 +11,15 @@ ROOT.gROOT.SetBatch(True)
 # Establish some global variables for use #
 ###########################################
 plotdir = 'plots/'
+
 # US, Europe/Asia, global
 #redirector = 'root://cmsxrootd.fnal.gov/'
-redirector = 'root://xrootd-cms.infn.it/'
+#redirector = 'root://xrootd-cms.infn.it/'
 #redirector = 'root://cms-xrd-global.cern.ch/'
-rootfile_path = '/store/user/cmsdas/2021/long_exercises/BstarTW/rootfiles'
+
+# Use this to access FNAL EOS files at CERN
+redirector = 'root://cmseos.fnal.gov/'
+rootfile_path = '/store/user/cmsdas/2023/long_exercises/BstarTW/rootfiles'
 config = 'bstar_config.json'
 if not os.path.exists(plotdir):
     os.makedirs(plotdir)

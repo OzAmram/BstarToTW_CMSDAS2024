@@ -33,12 +33,14 @@ plotdir = 'plots/' # this is where we'll save your plots
 if not os.path.exists(plotdir):
     os.makedirs(plotdir)
 
-# US, Europe/Asia, global
+# US, Europe/Asia, global 
 #redirector = 'root://cmsxrootd.fnal.gov/'
-redirector = 'root://xrootd-cms.infn.it/'
+#redirector = 'root://xrootd-cms.infn.it/'
 #redirector = 'root://cms-xrd-global.cern.ch/'
 
-rootfile_path = '{}/store/user/cmsdas/2021/long_exercises/BstarTW/rootfiles'.format(redirector)
+# Use this to access FNAL EOS files at CERN 
+redirector = 'root://cmseos.fnal.gov/'
+rootfile_path = '{}/store/user/cmsdas/2023/long_exercises/BstarTW/rootfiles'.format(redirector)
 config = 'bstar_config.json' # holds luminosities and cross sections
 
 # common c++ functions that we will need when looping of the RDataFrame
