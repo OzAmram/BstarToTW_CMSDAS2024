@@ -79,14 +79,32 @@ cd ../
 
 ## Submitting Condor jobs
 
-Create the appropriate output directory in your EOS space:
+To submit Condor jobs on LXPLUS, first create a valid proxy:
 ```
-eosmkdir /store/user/$USER/CMSDAS2023/
-eosmkdir /store/user/$USER/CMSDAS2023/rootfiles/
+voms-proxy-init --rfc --voms cms -valid 192:00
+```
+The x509 proxy will be created and automatically outputted to the default location `/tmp/x509up_u$(id -u)`
+
+Next, copy your proxy to your AFS home directory:
+```
+cp /tmp/x509up_u$(id -u) ~/
 ```
 
-**WARNING:** In order for the scripts to work, you must change the `$USER` value in the `condor/run_*.sh` script to your LPC username used in the above step. 
+You'll now have to modify the JDL (job description language) template provided for you. Open the file `condor/jdl_template` and replace the following two lines with your proxy filename and proxy path. The filename is of the form `x509up_uXXXXXX`, where you can find your user id from the file name, or from `echo $(id -u)`. The proxy path is wherever your AFS home is. Replace the `/a/` with the first letter of your username, and replace the username in the template with your own:
+```
+Proxy_filename = x509up_u133882
+Proxy_path = /afs/cern.ch/user/a/ammitra/$(Proxy_filename)
+```
 
+Finally, before submitting the Condor job, you just need to change the directory that the output ROOT file from the job will be sent to. Change the last line in the `condor/run_*.sh` scripts to your username to send the job results to your CERN EOS space:
+```
+cp -f rootfiles/*.root /eos/home-a/ammitra/
+```
+should become:
+```
+cp -f rootfiles/*.root /eos/home-u/username/
+```
+where `u` is the first letter of your username and `username` is your LXPLUS username. 
 
 You can now run either your selection, N-1 script, or the script for generating 2D template histograms for 2DAlphabet:
 
@@ -126,25 +144,10 @@ condor_q $USER
 
 To check the progress of your submitted jobs:
 ```
-condor_tail -name lpcschedd<schedd#>.fnal.gov <job ID>
+condor_tail -name bigbird28@cern.ch <job ID>
 ```
 
 To remove a job:
 ```
-condor_rm -name lpcschedd<schedd#>.fnal.gov <job ID>
-```
-
-To list contents of directory on EOS:
-```
-eosls /store/user/$USER/CMSDAS2023/rootfiles/
-```
-
-To copy file from EOS to local (`-f` overwrites):
-```
-xrdcp [-f] root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/FileYouWant.root ./
-```
-
-To copy files from local to EOS:
-```
-xrdcp [-f] FileToSend.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/
+condor_rm -name bigbird28@cern.ch <job ID>
 ```
