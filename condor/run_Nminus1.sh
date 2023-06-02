@@ -2,7 +2,12 @@
 echo "Run script starting"
 ls
 source /cvmfs/cms.cern.ch/cmsset_default.sh
-xrdcp root://cmseos.fnal.gov//store/user/cmsdas/2023/long_exercises/BstarTW/BstarTW.tgz ./
+
+export X509_USER_PROXY=$1
+voms-proxy-info -all
+voms-proxy-info -all -file $1
+
+cp /eos/user/c/cmsdas/2023/long-ex-b2g/BstarTW.tgz ./
 scramv1 project CMSSW CMSSW_11_1_4
 tar -xzvf BstarTW.tgz
 rm BstarTW.tgz
@@ -34,7 +39,7 @@ source setup.sh
 cd ../BstarToTW_CMSDAS2023
 rm rootfiles/*.root
 
-echo python exercises/nminus1.py $*
-python exercises/nminus1.py $*
+echo python exercises/nminus1.py -s $2 -y $3
+python exercises/nminus1.py -s $2 -y $3
 
 xrdcp -f rootfiles/*.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/

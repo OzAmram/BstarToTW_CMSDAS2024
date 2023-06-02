@@ -1,51 +1,51 @@
- -s QCDHT1000 -y 17
- -s QCDHT1000herwig -y 17
- -s QCDHT1500 -y 17
- -s QCDHT1500herwig -y 17
- -s QCDHT2000 -y 17
- -s QCDHT2000herwig -y 17
- -s QCDHT700 -y 17
- -s QCDHT700herwig -y 17
- -s QCDHerwig -y 17
- -s dataB -y 17
- -s dataC -y 17
- -s dataD -y 17
- -s dataE -y 17
- -s dataF -y 17
- -s signalLH1200 -y 17
- -s signalLH1400 -y 17
- -s signalLH1600 -y 17
- -s signalLH1800 -y 17
- -s signalLH2000 -y 17
- -s signalLH2200 -y 17
- -s signalLH2400 -y 17
- -s signalLH2600 -y 17
- -s signalLH2800 -y 17
- -s signalLH3000 -y 17
- -s signalLH3200 -y 17
- -s signalLH3400 -y 17
- -s signalLH3600 -y 17
- -s signalLH3800 -y 17
- -s signalLH4000 -y 17
- -s signalLH4200 -y 17
- -s signalRH1200 -y 17
- -s signalRH1400 -y 17
- -s signalRH1600 -y 17
- -s signalRH1800 -y 17
- -s signalRH2000 -y 17
- -s signalRH2200 -y 17
- -s signalRH2400 -y 17
- -s signalRH2600 -y 17
- -s signalRH2800 -y 17
- -s signalRH3000 -y 17
- -s signalRH3200 -y 17
- -s signalRH3400 -y 17
- -s signalRH3600 -y 17
- -s signalRH3800 -y 17
- -s signalRH4000 -y 17
- -s singletop_tB -y 17
- -s singletop_tWB -y 17
- -s singletop_tW -y 17
- -s singletop_t -y 17
- -s ttbar-semilep -y 17
- -s ttbar -y 17
+ QCDHT1000 17
+ QCDHT1000herwig 17
+ QCDHT1500 17
+ QCDHT1500herwig 17
+ QCDHT2000 17
+ QCDHT2000herwig 17
+ QCDHT700 17
+ QCDHT700herwig 17
+ QCDHerwig 17
+ dataB 17
+ dataC 17
+ dataD 17
+ dataE 17
+ dataF 17
+ signalLH1200 17
+ signalLH1400 17
+ signalLH1600 17
+ signalLH1800 17
+ signalLH2000 17
+ signalLH2200 17
+ signalLH2400 17
+ signalLH2600 17
+ signalLH2800 17
+ signalLH3000 17
+ signalLH3200 17
+ signalLH3400 17
+ signalLH3600 17
+ signalLH3800 17
+ signalLH4000 17
+ signalLH4200 17
+ signalRH1200 17
+ signalRH1400 17
+ signalRH1600 17
+ signalRH1800 17
+ signalRH2000 17
+ signalRH2200 17
+ signalRH2400 17
+ signalRH2600 17
+ signalRH2800 17
+ signalRH3000 17
+ signalRH3200 17
+ signalRH3400 17
+ signalRH3600 17
+ signalRH3800 17
+ signalRH4000 17
+ singletop_tB 17
+ singletop_tWB 17
+ singletop_tW 17
+ singletop_t 17
+ ttbar-semilep 17
+ ttbar 17

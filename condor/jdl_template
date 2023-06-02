@@ -4,12 +4,12 @@ Should_Transfer_Files = YES
 WhenToTransferOutput = ON_EXIT
 Proxy_filename = x509up_u133882
 Proxy_path = /afs/cern.ch/user/a/ammitra/$(Proxy_filename)
-transfer_input_files = $(Proxy_path)
 request_cpus = 1
 request_memory = 2000
 Output = logs/output_$(Cluster)_$(Process).stdout
 Error = logs/output_$(Cluster)_$(Process).stderr
 Log = logs/output_$(Cluster)_$(Process).log
-transfer_input_files = tarball.tgz
-Arguments = $(Proxy_filename) $(args)
+transfer_input_files = tarball.tgz, $(Proxy_path)
+#Arguments = $(Proxy_filename) $(args)
+Arguments = $(Proxy_path) $(args)
 Queue args from TEMPARGS
