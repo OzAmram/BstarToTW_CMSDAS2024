@@ -2,8 +2,8 @@ universe = vanilla
 Executable = TEMPSCRIPT
 Should_Transfer_Files = YES
 WhenToTransferOutput = ON_EXIT
-Proxy_filename = x509up_u133882
-Proxy_path = /afs/cern.ch/user/a/ammitra/$(Proxy_filename)
+Proxy_filename = .x509up_94239
+Proxy_path = /afs/cern.ch/user/m/mrogulji/$(Proxy_filename)
 request_cpus = 1
 request_memory = 2000
 Output = logs/output_$(Cluster)_$(Process).stdout
@@ -13,3 +13,4 @@ transfer_input_files = tarball.tgz, $(Proxy_path)
 #Arguments = $(Proxy_filename) $(args)
 Arguments = $(Proxy_path) $(args)
 Queue args from TEMPARGS
++JobFlavour = longlunch

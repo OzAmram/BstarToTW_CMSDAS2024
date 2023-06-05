@@ -42,4 +42,4 @@ rm rootfiles/*.root
 echo python exercises/nminus1.py -s $2 -y $3
 python exercises/nminus1.py -s $2 -y $3
 
-xrdcp -f rootfiles/*.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/
+cp -f rootfiles/*.root /eos/home-a/ammitra/
