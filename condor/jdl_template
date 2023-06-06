@@ -12,5 +12,5 @@ Log = logs/output_$(Cluster)_$(Process).log
 transfer_input_files = tarball.tgz, $(Proxy_path)
 #Arguments = $(Proxy_filename) $(args)
 Arguments = $(Proxy_path) $(args)
++JobFlavour = "workday"
 Queue args from TEMPARGS
-+JobFlavour = longlunch
