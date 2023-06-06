@@ -39,7 +39,7 @@ source setup.sh
 cd ../BstarToTW_CMSDAS2023
 rm rootfiles/*.root
 
-echo python bs_select.py $*
-python bs_select.py $*
+echo python bs_select.py ${@:2}
+python bs_select.py ${@:2}
 
-xrdcp -f Presel_*.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/
+cp -f Presel_*.root /eos/home-a/ammitra/
