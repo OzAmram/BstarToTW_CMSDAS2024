@@ -1,4 +1,4 @@
-# BstarToTW_CMSDAS2023
+# BstarToTW_CMSDAS2024
 
 ## Getting started (in bash shell)
 
@@ -7,8 +7,8 @@
 ssh -XY USERNAME@cmslpc-sl7.fnal.gov
 export SCRAM_ARCH=slc7_amd64_gcc820 
 cd ~/nobackup/
-mkdir CMSDAS2023
-cd CMSDAS2023/
+mkdir CMSDAS2024
+cd CMSDAS2024/
 cmsrel CMSSW_11_1_4
 cd CMSSW_11_1_4/src
 cmsenv
@@ -16,13 +16,13 @@ cmsenv
 
 ### In the `CMSSW_11_1_4/src/` directory, clone this exercise repo:
 ```
-git clone https://github.com/ammitra/BstarToTW_CMSDAS2023.git
+git clone https://github.com/ozamram/BstarToTW_CMSDAS2024.git
 ```
 OR fork the code onto your personal project space and set the upstream:
 ```
-git clone https://github.com/<GitHubUsername>/BstarToTW_CMSDAS2023.git
-cd BstarToTW_CMSDAS2023
-git remote add upstream https://github.com/ammitra/BstarToTW_CMSDAS2023.git
+git clone https://github.com/<GitHubUsername>/BstarToTW_CMSDAS2024.git
+cd BstarToTW_CMSDAS2024
+git remote add upstream https://github.com/ozamram/BstarToTW_CMSDAS2024.git
 git remote -v
 ```
 
@@ -44,10 +44,10 @@ If all went well, the command should be executed with no output.
 
 ### At this point you should have a directory structure that looks like this: 
 ```
-└── ~/nobackup/CMSDAS2023/CMSSW_11_1_4/src/
+└── ~/nobackup/CMSDAS2024/CMSSW_11_1_4/src/
     ├── TIMBER/
     ├── timber-env/
-    └── BstarToTW_CMSDAS2023/
+    └── BstarToTW_CMSDAS2024/
 ```
 
 ## Starting up once environment is set:
@@ -69,9 +69,9 @@ python setup.py develop
 cd ../
 ```
 
-## If you need to update BstarToTW_CMSDAS2023
+## If you need to update BstarToTW_CMSDAS2024
 ```
-cd BstarToTW_CMSDAS2023
+cd BstarToTW_CMSDAS2024
 git fetch --all
 git pull origin master
 cd ../
@@ -82,7 +82,7 @@ cd ../
 Create the appropriate output directory in your EOS space:
 ```
 eosmkdir /store/user/$USER/CMSDAS2023/
-eosmkdir /store/user/$USER/CMSDAS2023/rootfiles/
+eosmkdir /store/user/$USER/CMSDAS2024/rootfiles/
 ```
 
 **WARNING:** In order for the scripts to work, you must change the `$USER` value in the `condor/run_*.sh` script to your LPC username used in the above step. 
