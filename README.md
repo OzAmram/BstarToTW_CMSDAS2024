@@ -81,7 +81,7 @@ cd ../
 
 Create the appropriate output directory in your EOS space:
 ```
-eosmkdir /store/user/$USER/CMSDAS2023/
+eosmkdir /store/user/$USER/CMSDAS2024/
 eosmkdir /store/user/$USER/CMSDAS2024/rootfiles/
 ```
 
@@ -92,17 +92,17 @@ You can now run either your selection, N-1 script, or the script for generating 
 
 *Selection:*
 ```
-python $CMSSW_BASE/src/BstarToTW_CMSDAS2023/CondorHelper.py -r condor/run_selection.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2024/CondorHelper.py -r condor/run_selection.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 *N - 1:*
 ```
-python $CMSSW_BASE/src/BstarToTW_CMSDAS2023/CondorHelper.py -r condor/run_Nminus1.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2024/CondorHelper.py -r condor/run_Nminus1.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 *2D template histos:*
 ```
-python $CMSSW_BASE/src/BstarToTW_CMSDAS2023/CondorHelper.py -r condor/run_bstar.sh -a condor/2016_args_2DTemplates.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2024/CondorHelper.py -r condor/run_bstar.sh -a condor/2016_args_2DTemplates.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 
@@ -136,12 +136,12 @@ condor_rm -name lpcschedd<schedd#>.fnal.gov <job ID>
 
 To list contents of directory on EOS:
 ```
-eosls /store/user/$USER/CMSDAS2023/rootfiles/
+eosls /store/user/$USER/CMSDAS2024/rootfiles/
 ```
 
 To copy file from EOS to local (`-f` overwrites):
 ```
-xrdcp [-f] root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/FileYouWant.root ./
+xrdcp [-f] root://cmseos.fnal.gov//store/user/$USER/CMSDAS2024/rootfiles/FileYouWant.root ./
 ```
 
 To copy files from local to EOS:
