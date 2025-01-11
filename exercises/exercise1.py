@@ -17,7 +17,7 @@ ROOT.gROOT.SetBatch(True)
 # CL options
 parser = OptionParser()
 parser.add_option('-y', '--year', metavar='YEAR', type='string', action='store',
-                default   =   '',
+                default   =   '18',
                 dest      =   'year',
                 help      =   'Year (16,17,18)')
 parser.add_option('--select', metavar='BOOL', action='store_true',
@@ -34,6 +34,7 @@ if not os.path.exists(plotdir):
     os.makedirs(plotdir)
 
 rootfile_path = 'root://cmsxrootd.fnal.gov///store/user/cmsdas/2021/long_exercises/BstarTW/rootfiles'
+#rootfile_path = '/eos/uscms/store/user/cmsdas/2021/long_exercises/BstarTW/rootfiles'
 config = 'bstar_config.json' # holds luminosities and cross sections
 
 # common c++ functions that we will need when looping of the RDataFrame
@@ -48,14 +49,14 @@ colors = {'signalLH2000': ROOT.kBlue}
 
 # define some filters that we will use later: here are MET filter names and Trigger path names
 # MET Flags - https://twiki.cern.ch/twiki/bin/view/CMS/MissingETOptionalFiltersRun2
+
+# TODO : Fill more of the recommended Run2 filters from the Twiki!
 flags = ["Flag_goodVertices",
-        "Flag_globalSuperTightHalo2016Filter", 
-        "Flag_HBHENoiseFilter", 
-        "Flag_HBHENoiseIsoFilter",
-        "Flag_EcalDeadCellTriggerPrimitiveFilter",
-        "Flag_BadPFMuonFilter"
-        #"Flag_ecalBadCalibReducedMINIAODFilter"  # Still work in progress flag, may not be used
+
+        #     Fill me in !
+
     ]
+
 # Triggers
 if options.year == '16': 
     triggers = ["HLT_PFHT800","HLT_PFHT900","HLT_PFJet450"]
@@ -86,7 +87,7 @@ def select(setname,year):
         # This function is a helper defined here: https://github.com/cmantill/BstarToTW_CMSDAS2021/blob/master/helpers.py#L5-L18
 
         #norm = helpers.getNormFactor(setname,year,config,a.genEventCount)
-	norm = helpers.getNormFactor(setname,year,config)
+        norm = helpers.getNormFactor(setname,year,config)
 
     else: 
         norm = 1.
@@ -190,10 +191,10 @@ if __name__ == "__main__":
         for sig in signal_names: signal_hists[sig] = histgroups[sig][varname]
 
         # Plot everything together!
-	EasyPlots(
-	    name = plot_filename, 
-	    histlist = [signal_hists[sig]],
-	    xtitle = varnames[varname],
-	    ytitle = 'Events',
-	    datastyle = 'hist'
-	)
+        EasyPlots(
+            name = plot_filename, 
+            histlist = [signal_hists[sig]],
+            xtitle = varnames[varname],
+            ytitle = 'Events',
+            datastyle = 'hist'
+        )

@@ -1,39 +1,58 @@
-# BstarToTW_CMSDAS2024
+# BstarToTW_CMSDAS2025
 
-## Getting started (in bash shell)
+## Getting started 
 
-### Setup CMSSW environment:
+## Setup TIMBER environment
+Follow the instructions in the [TIMBER Repo](https://github.com/JHU-Tools/TIMBER)
+This will create a `CMSSW_12_3_5` release and install TIMBER in it
+
+For convenience these instructions are copied here as well
+
+### TIMBER Install
+[Full Documentation](https://lcorcodilos.github.io/TIMBER/)
+
+TIMBER (Tree Interface for Making Binned Events with RDataFrame) is an easy-to-use and fast python analysis framework used to quickly process CMS data sets.
+Default arguments assume the use of the NanoAOD format but any ROOT TTree can be processed.
+
+These instructions use python3 and CMSSW. The instructions below have been tested on el8 (lxplus and lpc). To make it work on lxplus9 (el9), the CMSSW version should be changed to CMSSW_13_2_10.
+
 ```
-ssh -XY USERNAME@cmslpc-sl7.fnal.gov
-export SCRAM_ARCH=slc7_amd64_gcc820 
-cd ~/nobackup/
-mkdir CMSDAS2024
-cd CMSDAS2024/
-cmsrel CMSSW_11_1_4
-cd CMSSW_11_1_4/src
+cmsrel CMSSW_12_3_5
+cd CMSSW_12_3_5/src
 cmsenv
+python3 -m virtualenv timber-env
+git clone git@github.com:JHU-Tools/TIMBER.git
+cd TIMBER/
+mkdir bin
+cd bin
+git clone git@github.com:fmtlib/fmt.git
+cd ../..
 ```
 
-### In the `CMSSW_11_1_4/src/` directory, clone this exercise repo:
+Boost library path (the boost version as well!) may change depending on the CMSSW version so this may need to be modified by hand. This version works for both CMSSW versions used for lxplus8 and lxplus9. If one does not wish to use CMSSW, boost libraries will have to be installed (and added to the MakeFile).
+
+Copy the whole multi-line string to the environment activation script
+
 ```
-git clone https://github.com/ozamram/BstarToTW_CMSDAS2024.git
-```
-OR fork the code onto your personal project space and set the upstream:
-```
-git clone https://github.com/<GitHubUsername>/BstarToTW_CMSDAS2024.git
-cd BstarToTW_CMSDAS2024
-git remote add upstream https://github.com/ozamram/BstarToTW_CMSDAS2024.git
-git remote -v
+cat <<EOT >> timber-env/bin/activate
+
+export BOOSTPATH=/cvmfs/cms.cern.ch/el8_amd64_gcc10/external/boost/1.78.0-0d68c45b1e2660f9d21f29f6d0dbe0a0/lib
+if grep -q '\${BOOSTPATH}' <<< '\${LD_LIBRARY_PATH}'
+then
+  echo 'BOOSTPATH already on LD_LIBRARY_PATH'
+else
+  export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:\${BOOSTPATH}
+  echo 'BOOSTPATH added to PATH'
+fi
+EOT
 ```
 
-### In the `CMSSW_11_1_4/src/` directory, create a python virtual environment and install TIMBER within it:
+This will activate the python3 environment, set a proper LD_LIBRARY_PATH for boost libraries and build the TIMBER binaries
+
 ```
-git clone https://github.com/ammitra/TIMBER.git
-python -m virtualenv timber-env
 source timber-env/bin/activate
 cd TIMBER
 source setup.sh
-cd ..
 ```
 
 You can test that the TIMBER installation is working by running the following in your shell:
@@ -42,19 +61,25 @@ python -c 'import TIMBER.Analyzer'
 ```
 If all went well, the command should be executed with no output.
 
-### At this point you should have a directory structure that looks like this: 
+
+## In the `CMSSW_12_3_4/src/` directory, clone this exercise repo:
 ```
-└── ~/nobackup/CMSDAS2024/CMSSW_11_1_4/src/
-    ├── TIMBER/
-    ├── timber-env/
-    └── BstarToTW_CMSDAS2024/
+git clone https://github.com/ozamram/BstarToTW_CMSDAS2025.git
 ```
+OR fork the code onto your personal project space and set the upstream:
+```
+git clone https://github.com/<GitHubUsername>/BstarToTW_CMSDAS2025.git
+cd BstarToTW_CMSDAS2025
+git remote add upstream https://github.com/ozamram/BstarToTW_CMSDAS2025.git
+git remote -v
+```
+
 
 ## Starting up once environment is set:
 
 Once you have an environment:
 ```
-cd CMSSW_11_1_4/src/
+cd CMSSW_12_3_4/src/
 cmsenv
 source timber-env/bin/activate
 ```
@@ -69,9 +94,9 @@ python setup.py develop
 cd ../
 ```
 
-## If you need to update BstarToTW_CMSDAS2024
+## If you need to update BstarToTW_CMSDAS2025
 ```
-cd BstarToTW_CMSDAS2024
+cd BstarToTW_CMSDAS2025
 git fetch --all
 git pull origin master
 cd ../
@@ -81,8 +106,8 @@ cd ../
 
 Create the appropriate output directory in your EOS space:
 ```
-eosmkdir /store/user/$USER/CMSDAS2024/
-eosmkdir /store/user/$USER/CMSDAS2024/rootfiles/
+eosmkdir /store/user/$USER/CMSDAS2025/
+eosmkdir /store/user/$USER/CMSDAS2025/rootfiles/
 ```
 
 **WARNING:** In order for the scripts to work, you must change the `$USER` value in the `condor/run_*.sh` script to your LPC username used in the above step. 
@@ -92,17 +117,17 @@ You can now run either your selection, N-1 script, or the script for generating 
 
 *Selection:*
 ```
-python $CMSSW_BASE/src/BstarToTW_CMSDAS2024/CondorHelper.py -r condor/run_selection.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2025/CondorHelper.py -r condor/run_selection.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 *N - 1:*
 ```
-python $CMSSW_BASE/src/BstarToTW_CMSDAS2024/CondorHelper.py -r condor/run_Nminus1.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2025/CondorHelper.py -r condor/run_Nminus1.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 *2D template histos:*
 ```
-python $CMSSW_BASE/src/BstarToTW_CMSDAS2024/CondorHelper.py -r condor/run_bstar.sh -a condor/2016_args_2DTemplates.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2025/CondorHelper.py -r condor/run_bstar.sh -a condor/2016_args_2DTemplates.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 
@@ -136,12 +161,12 @@ condor_rm -name lpcschedd<schedd#>.fnal.gov <job ID>
 
 To list contents of directory on EOS:
 ```
-eosls /store/user/$USER/CMSDAS2024/rootfiles/
+eosls /store/user/$USER/CMSDAS2025/rootfiles/
 ```
 
 To copy file from EOS to local (`-f` overwrites):
 ```
-xrdcp [-f] root://cmseos.fnal.gov//store/user/$USER/CMSDAS2024/rootfiles/FileYouWant.root ./
+xrdcp [-f] root://cmseos.fnal.gov//store/user/$USER/CMSDAS2025/rootfiles/FileYouWant.root ./
 ```
 
 To copy files from local to EOS:

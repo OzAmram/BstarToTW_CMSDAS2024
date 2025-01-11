@@ -126,13 +126,14 @@ def select(setname,year):
     #################################
     # Wtagging decision logic
     # Returns 0 for no tag, 1 for lead tag, 2 for sublead tag, and 3 for both tag (which is physics-wise equivalent to 2)
-    wtag_str = "1*Wtag(FatJet_tau2[jetIdx[0]]/FatJet_tau1[jetIdx[0]],0,{0}, FatJet_msoftdrop[jetIdx[0]],65,105) + 2*Wtag(FatJet_tau2[jetIdx[1]]/FatJet_tau1[jetIdx[1]],0,{0}, FatJet_msoftdrop[jetIdx[1]],65,105)".format(cuts['tau21'])
 
     jets = VarGroup('jets')
-    jets.Add('wtag_bit',    wtag_str)
-    jets.Add('top_bit',     '(wtag_bit & 2)? 0: (wtag_bit & 1)? 1: -1') # (if wtag==3 or 2 (subleading w), top_index=0) else (if wtag==1, top_index=1) else (-1)
-    jets.Add('top_index',   'top_bit >= 0 ? jetIdx[top_bit] : -1')
-    jets.Add('w_index',     'top_index == 0 ? jetIdx[1] : top_index == 1 ? jetIdx[0] : -1')
+
+    #Select jet with smaller mass as W candidate
+    jets.Add('w_index', 'Dijet_msoftdrop[0] < Dijet_msoftdrop[1]')
+    #other jet is top candidate
+    jets.Add('top_index',   '1 - w_index')
+
     # Calculate some new comlumns that we'd like to cut on (that were costly to do before the other filtering)
     jets.Add("lead_vect",   "hardware::TLvector(FatJet_pt[jetIdx[0]],FatJet_eta[jetIdx[0]],FatJet_phi[jetIdx[0]],FatJet_msoftdrop[jetIdx[0]])")
     jets.Add("sublead_vect","hardware::TLvector(FatJet_pt[jetIdx[1]],FatJet_eta[jetIdx[1]],FatJet_phi[jetIdx[1]],FatJet_msoftdrop[jetIdx[1]])")
@@ -143,11 +144,11 @@ def select(setname,year):
     # N - 1 #
     #########
     plotting_vars = VarGroup('plotting_vars') # assume leading is top and subleading is W
-    plotting_vars.Add("mtop",        "FatJet_msoftdrop[jetIdx[0]]")
-    plotting_vars.Add("mW",          "FatJet_msoftdrop[jetIdx[1]]")
-    plotting_vars.Add("tau32",       "FatJet_tau3[jetIdx[0]]/FatJet_tau2[jetIdx[0]]")
-    plotting_vars.Add("subjet_btag", "max(SubJet_btagDeepB[FatJet_subJetIdx1[jetIdx[0]]],SubJet_btagDeepB[FatJet_subJetIdx2[jetIdx[0]]])")
-    plotting_vars.Add("tau21",       "FatJet_tau2[jetIdx[1]]/FatJet_tau1[jetIdx[1]]")
+    plotting_vars.Add("mW",          "Dijet_msoftdrop[w_index]")
+    plotting_vars.Add("mtop",        "Dijet_msoftdrop[top_index]")
+    plotting_vars.Add("tau32",       "Dijet_tau3[top_index]/Dijet_tau2[top_index]")
+    plotting_vars.Add("subjet_btag", "max(SubJet_btagDeepB[Dijet_subJetIdx1[top_index]],SubJet_btagDeepB[Dijet_subJetIdx2[top_index]])")
+    plotting_vars.Add("tau21",       "Dijet_tau2[w_index]/Dijet_tau1[w_index]")
 
     N_cuts = CutGroup('Ncuts') # cuts
     N_cuts.Add("deltaY_cut",      "deltaY<1.6")

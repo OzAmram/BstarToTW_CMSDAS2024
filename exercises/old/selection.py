@@ -242,5 +242,5 @@ if __name__ == "__main__":
         for sig in signal_names: signal_hists[sig] = histgroups[sig][varname]#all_hists[sig] = histgroups[sig][varname]#
 
         # Plot everything together!
-	print('Plotting everything...')
+        print('Plotting everything...')
         CompareShapes(plot_filename,options.year,varnames[varname],bkgs=bkg_hists,signals=signal_hists,colors=colors,names=names,stackBkg=True)

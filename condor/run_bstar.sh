@@ -3,7 +3,7 @@ echo "Run script starting"
 ls
 source /cvmfs/cms.cern.ch/cmsset_default.sh
 xrdcp root://cmseos.fnal.gov//store/user/cmsdas/2023/long_exercises/BstarTW/BstarTW.tgz ./
-scramv1 project CMSSW CMSSW_11_1_4
+scramv1 project CMSSW CMSSW_12_3_5
 tar -xzvf BstarTW.tgz
 rm BstarTW.tgz
 rm *.root
@@ -18,7 +18,7 @@ echo "Current working directory path: ---------------------------------------"
 pwd
 echo "-----------------------------------------------------------------------"
 tar -xzf tarball.tgz; rm tarball.tgz
-cp -r * ../CMSSW_11_1_4/src/BstarToTW_CMSDAS2023/; cd ../CMSSW_11_1_4/src/
+cp -r * ../CMSSW_12_3_5/src/BstarToTW_CMSDAS2023/; cd ../CMSSW_12_3_5/src/
 echo 'IN RELEASE'
 echo "Current working directory path: ---------------------------------------"
 pwd

@@ -52,13 +52,13 @@ varnames = {
 #########################################
 def nminus1(setname, year):
     '''Performs the N minus 1 selection and plotting by
- 	(1) Making some basic kinematic selections
-	(2) Creating a few TIMBER VarGroups to store variables we're interested in studying
-	(3) Creating a CutGroup to store the cuts whose effects on the above variables we're interested in seeing
-	(4) Perform the N-1 cut-making and plotting
+        (1) Making some basic kinematic selections
+        (2) Creating a few TIMBER VarGroups to store variables we're interested in studying
+        (3) Creating a CutGroup to store the cuts whose effects on the above variables we're interested in seeing
+        (4) Perform the N-1 cut-making and plotting
     Args:
-	setname (str): name of input dataset
-	year    (str): 16, 17, 18
+        setname (str): name of input dataset
+        year    (str): 16, 17, 18
     '''
     # Open the JSON config file and grab information we will need
     config = OpenJSON('bstar_config.json')
@@ -90,16 +90,16 @@ def nminus1(setname, year):
     #################################
     # Build some variables for jets #
     #################################
-    # Wtagging decision logic
-    # Returns 0 for no tag, 1 for lead tag, 2 for sublead tag, and 3 for both tag (which is physics-wise equivalent to 2)
-    wtag_str = "1*Wtag(Dijet_tau2[0]/Dijet_tau1[0],0,{0},Dijet_msoftdrop[0],65,105) + 2*Wtag(Dijet_tau2[1]/Dijet_tau1[1],0,{0},Dijet_msoftdrop[1],65,105)".format(cuts['tau21'])
+    # We need to decide if any of the jets are likely to be a W or a top
+    # TODO : Write an expression that selects the index of the jet we will use as the top candidate (0 or 1)
+
+    # Starting point is to take the leading jet (highest pt) as the W candidate, how can we do better?
+    w_index_str = "0"
 
     # Create a TIMBER VarGroup to store information about the jets
     jets = VarGroup('jets')
-    jets.Add('wtag_bit',    wtag_str)
-    jets.Add('top_bit',     '(wtag_bit & 2)? 0: (wtag_bit & 1)? 1: -1') # (if wtag==3 or 2 (subleading w), top_index=0) else (if wtag==1, top_index=1) else (-1)
-    jets.Add('top_index',   'top_bit >= 0 ? jetIdx[top_bit] : -1')
-    jets.Add('w_index',     'top_index == 0 ? jetIdx[1] : top_index == 1 ? jetIdx[0] : -1')
+    jets.Add('w_index',    w_index_str)
+    jets.Add('top_index',   '1 - w_index')
     # Calculate some new comlumns that we'd like to cut on (that were costly to do before the other filtering)
     jets.Add("lead_vect",   "hardware::TLvector(Dijet_pt[0], Dijet_eta[0], Dijet_phi[0], Dijet_msoftdrop[0])")
     jets.Add("sublead_vect","hardware::TLvector(Dijet_pt[1], Dijet_eta[1], Dijet_phi[1], Dijet_msoftdrop[1])")
@@ -110,10 +110,9 @@ def nminus1(setname, year):
     # Build some variables for the N - 1 #
     ######################################
     plotting_vars = VarGroup('plotting_vars') # These are the variables we'll track to see how the cuts influence them
-    plotting_vars.Add("mtop",  "Dijet_msoftdrop[0]")
-    plotting_vars.Add("mW",    "Dijet_msoftdrop[1]")
-    plotting_vars.Add("tau32", "Dijet_tau3[0]/Dijet_tau2[0]")	# Assume the lead is the top...
-    plotting_vars.Add("tau21", "Dijet_tau2[1]/Dijet_tau1[1]")	# and the sublead is the W
+
+    #TODO : Add variables for the mass and tau32 of the top candidate, the mass and tau21 of the W candidate 
+    #plotting_vars.Add("mtop",  ...)
 
     N_cuts = CutGroup('Ncuts') # N cuts to make on the VarGroup above
     N_cuts.Add("deltaY_cut",      "deltaY < 1.6")
@@ -122,7 +121,6 @@ def nminus1(setname, year):
     N_cuts.Add("tau32_cut",       "(tau32 > 0.0) && (tau32 < %s)"%(cuts['tau32']))
     N_cuts.Add("tau21_cut",       "(tau21 > 0.0)&&(tau21 < %s)"%(cuts['tau21']))
 
-    # Organize N-1 of tagging variables when assuming top is always leading
     nodeToPlot = a.Apply([jets,plotting_vars])
     nminus1Nodes = a.Nminus1(N_cuts, node=nodeToPlot) # constructs N nodes with a different N-1 selection for each
     nminus1Hists = HistGroup('nminus1Hists')
@@ -140,7 +138,7 @@ def nminus1(setname, year):
     print('Plotting:')
     for nkey in nminus1Nodes.keys():
         if nkey == 'full': continue
-	print('\t{}'.format(nkey))
+        print('\t{}'.format(nkey))
         var = nkey.replace('_cut','').replace('minus_','')
         hist_tuple = (var,var,binning[var][0],binning[var][1],binning[var][2])
         hist = nminus1Nodes[nkey].DataFrame.Histo1D(hist_tuple,var,'norm')
