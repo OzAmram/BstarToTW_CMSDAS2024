@@ -64,14 +64,7 @@ If all went well, the command should be executed with no output.
 
 ## In the `CMSSW_12_3_4/src/` directory, clone this exercise repo:
 ```
-git clone https://github.com/ozamram/BstarToTW_CMSDAS2025.git
-```
-OR fork the code onto your personal project space and set the upstream:
-```
-git clone https://github.com/<GitHubUsername>/BstarToTW_CMSDAS2025.git
-cd BstarToTW_CMSDAS2025
-git remote add upstream https://github.com/ozamram/BstarToTW_CMSDAS2025.git
-git remote -v
+git clone -b lpc-2025 https://github.com/ozamram/BstarToTW_CMSDAS2025.git
 ```
 
 
