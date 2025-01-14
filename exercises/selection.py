@@ -1,5 +1,4 @@
 import ROOT, collections,sys,os
-sys.path.append('./')
 from collections import OrderedDict
 from TIMBER.Analyzer import analyzer, HistGroup
 from TIMBER.Tools.Common import CompileCpp
@@ -152,6 +151,9 @@ def select(setname, year):
     # Book a group to save the histograms
     hists = HistGroup('{}_{}'.format(setname, year))
     for varname in varnames.keys():
+        if varname not in a.GetColumnNames():
+            print(f'\t[WARNING] The requested plotting variable "{varname}" does not exist in the RDataFrame list of available columns, create it first...')
+            continue
         print('\t{}'.format(varname))
         histname = '{}_{}_{}'.format(setname, year, varname)
         # Arguments for binning that you would normally pass to a TH1
