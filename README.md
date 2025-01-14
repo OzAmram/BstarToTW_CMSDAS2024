@@ -65,7 +65,6 @@ If all went well, the command should be executed with no output.
 ## In the `CMSSW_12_3_4/src/` directory, clone this exercise repo:
 ```
 git clone -b lpc-2025 https://github.com/ozamram/BstarToTW_CMSDAS2025.git BstarToTW_CMSDAS2025 
-```
 
 
 ## Starting up once environment is set:
