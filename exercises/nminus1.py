@@ -1,5 +1,4 @@
 import ROOT, collections,sys,os
-sys.path.append('./')
 from collections import OrderedDict
 from TIMBER.Analyzer import analyzer, HistGroup, VarGroup, CutGroup
 from TIMBER.Tools.Common import CompileCpp, OpenJSON

@@ -3,7 +3,6 @@
    for signal and background MC and compare.
 '''
 import ROOT, collections,sys,os
-sys.path.append('./')
 from optparse import OptionParser
 from collections import OrderedDict
 
