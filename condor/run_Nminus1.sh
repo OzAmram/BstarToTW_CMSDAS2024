@@ -2,7 +2,7 @@
 echo "Run script starting"
 ls
 source /cvmfs/cms.cern.ch/cmsset_default.sh
-xrdcp root://cmseos.fnal.gov//store/user/cmsdas/2025/long_exercises/BstarTW/BstarTW.tgz ./
+xrdcp root://cmseos.fnal.gov//store/user/$USER/BstarTW.tgz ./
 scramv1 project CMSSW CMSSW_12_3_5
 tar -xzvf BstarTW.tgz
 rm BstarTW.tgz
