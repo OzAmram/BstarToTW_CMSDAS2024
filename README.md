@@ -4,9 +4,11 @@
 
 ## Setup TIMBER environment
 Follow the instructions in the [TIMBER Repo](https://github.com/JHU-Tools/TIMBER)
-This will create a `CMSSW_12_3_5` release and install TIMBER in it
+This will create a `CMSSW_13_2_10` release and install TIMBER in it
 
 For convenience these instructions are copied here as well
+
+**We recommend you work on EL9 (not EL8) LPC nodes as that is what we have tested**
 
 ### TIMBER Install
 [Full Documentation](https://lcorcodilos.github.io/TIMBER/)
