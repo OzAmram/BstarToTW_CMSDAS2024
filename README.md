@@ -1,4 +1,4 @@
-# BstarToTW_CMSDAS2025
+# BstarToTW_CMSDAS2026
 
 ## Getting started 
 
@@ -17,8 +17,8 @@ Default arguments assume the use of the NanoAOD format but any ROOT TTree can be
 These instructions use python3 and CMSSW. The instructions below have been tested on el8 (lxplus and lpc). To make it work on lxplus9 (el9), the CMSSW version should be changed to CMSSW_13_2_10.
 
 ```
-cmsrel CMSSW_12_3_5
-cd CMSSW_12_3_5/src
+cmsrel CMSSW_13_2_10
+cd CMSSW_13_2_10/src
 cmsenv
 python3 -m virtualenv timber-env
 git clone git@github.com:JHU-Tools/TIMBER.git
@@ -35,14 +35,20 @@ Copy the whole multi-line string to the environment activation script
 
 ```
 cat <<EOT >> timber-env/bin/activate
-
-export BOOSTPATH=/cvmfs/cms.cern.ch/el8_amd64_gcc10/external/boost/1.78.0-0d68c45b1e2660f9d21f29f6d0dbe0a0/lib
-if grep -q '\${BOOSTPATH}' <<< '\${LD_LIBRARY_PATH}'
-then
-  echo 'BOOSTPATH already on LD_LIBRARY_PATH'
+export SCRAM_ARCH=${SCRAM_ARCH}
+if [[ "\$SCRAM_ARCH" == "el8_amd64_gcc11" ]]; then
+  BOOSTPATH=/cvmfs/cms.cern.ch/el8_amd64_gcc11/external/boost/1.78.0-dfb1dc972d1e1af822bb548909730506/lib
+elif [[ "\$SCRAM_ARCH" == "el9_amd64_gcc11" ]]; then
+  BOOSTPATH=/cvmfs/cms.cern.ch/el9_amd64_gcc11/external/boost/1.78.0-c49033d06e1a3bf1beac1c01e1ef27d6/lib
 else
-  export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}:\${BOOSTPATH}
-  echo 'BOOSTPATH added to PATH'
+  BOOSTPATH=/cvmfs/cms.cern.ch/el8_amd64_gcc10/external/boost/1.78.0-0d68c45b1e2660f9d21f29f6d0dbe0a0/lib
+fi
+
+if [[ ":\$LD_LIBRARY_PATH:" != *":\$BOOSTPATH:"* ]]; then
+  export LD_LIBRARY_PATH="\${LD_LIBRARY_PATH:+\$LD_LIBRARY_PATH:}\$BOOSTPATH"
+  echo "BOOSTPATH added to LD_LIBRARY_PATH"
+else
+  echo "BOOSTPATH already on LD_LIBRARY_PATH"
 fi
 EOT
 ```
@@ -62,9 +68,9 @@ python -c 'import TIMBER.Analyzer'
 If all went well, the command should be executed with no output.
 
 
-## In the `CMSSW_12_3_5/src/` directory, clone this exercise repo:
+## In the `CMSSW_13_2_10/src/` directory, clone this exercise repo:
 ```
-git clone -b lpc-2025 git@github.com:OzAmram/BstarToTW_CMSDAS2024.git BstarToTW_CMSDAS2025 
+git clone -b lpc-2026 git@github.com:OzAmram/BstarToTW_CMSDAS2024.git BstarToTW_CMSDAS2026 
 ```
 
 
@@ -72,7 +78,7 @@ git clone -b lpc-2025 git@github.com:OzAmram/BstarToTW_CMSDAS2024.git BstarToTW_
 
 Once you have an environment:
 ```
-cd CMSSW_12_3_5/src/
+cd CMSSW_13_2_10/src/
 cmsenv
 source timber-env/bin/activate
 ```
@@ -87,9 +93,9 @@ python setup.py develop
 cd ../
 ```
 
-## If you need to update BstarToTW_CMSDAS2025
+## If you need to update BstarToTW_CMSDAS2026
 ```
-cd BstarToTW_CMSDAS2025
+cd BstarToTW_CMSDAS2026
 git fetch --all
 git pull origin master
 cd ../
@@ -99,8 +105,8 @@ cd ../
 
 Create the appropriate output directory in your EOS space:
 ```
-eosmkdir /store/user/$USER/CMSDAS2025/
-eosmkdir /store/user/$USER/CMSDAS2025/rootfiles/
+eosmkdir /store/user/$USER/CMSDAS2026/
+eosmkdir /store/user/$USER/CMSDAS2026/rootfiles/
 ```
 
 **WARNING:** In order for the scripts to work, you must change the `$USER` value in the `condor/run_*.sh` script to your LPC username used in the above step. 
@@ -110,17 +116,17 @@ You can now run either your selection, N-1 script, or the script for generating 
 
 *Selection:*
 ```
-python $CMSSW_BASE/src/BstarToTW_CMSDAS2025/CondorHelper.py -r condor/run_selection.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2026/CondorHelper.py -r condor/run_selection.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 *N - 1:*
 ```
-python $CMSSW_BASE/src/BstarToTW_CMSDAS2025/CondorHelper.py -r condor/run_Nminus1.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2026/CondorHelper.py -r condor/run_Nminus1.sh -a condor/2016_args.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 *2D template histos:*
 ```
-python $CMSSW_BASE/src/BstarToTW_CMSDAS2025/CondorHelper.py -r condor/run_bstar.sh -a condor/2016_args_2DTemplates.txt -i "bstar.cc bstar_config.json helpers.py"
+python $CMSSW_BASE/src/BstarToTW_CMSDAS2026/CondorHelper.py -r condor/run_bstar.sh -a condor/2016_args_2DTemplates.txt -i "bstar.cc bstar_config.json helpers.py"
 ```
 
 
@@ -154,15 +160,15 @@ condor_rm -name lpcschedd<schedd#>.fnal.gov <job ID>
 
 To list contents of directory on EOS:
 ```
-eosls /store/user/$USER/CMSDAS2025/rootfiles/
+eosls /store/user/$USER/CMSDAS2026/rootfiles/
 ```
 
 To copy file from EOS to local (`-f` overwrites):
 ```
-xrdcp [-f] root://cmseos.fnal.gov//store/user/$USER/CMSDAS2025/rootfiles/FileYouWant.root ./
+xrdcp [-f] root://cmseos.fnal.gov//store/user/$USER/CMSDAS2026/rootfiles/FileYouWant.root ./
 ```
 
 To copy files from local to EOS:
 ```
-xrdcp [-f] FileToSend.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2023/rootfiles/
+xrdcp [-f] FileToSend.root root://cmseos.fnal.gov//store/user/$USER/CMSDAS2026/rootfiles/
 ```
