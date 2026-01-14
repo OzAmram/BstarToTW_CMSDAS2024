@@ -10,6 +10,10 @@ For convenience these instructions are copied here as well
 
 **We recommend you work on EL9 (not EL8) LPC nodes as that is what we have tested**
 
+First setup the CMS commands. You need to do this every time you log in, so its a good idea to add it to your `/.bashrc`!
+```source /cvmfs/cms.cern.ch/cmsset_default.sh
+```
+
 ### TIMBER Install
 [Full Documentation](https://lcorcodilos.github.io/TIMBER/)
 
